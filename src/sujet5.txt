@@ -1,0 +1,623 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Horloge 25 + 5 (Pomodoro) - Projet freeCodeCamp" />
+    <title>Horloge 25 + 5 | Pomodoro Timer</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Script de test freeCodeCamp -->
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js" defer></script>
+    <style>
+        /* Préchargement des polices et styles de base */
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
+
+
+
+/* PomodoroClock.css */
+:root {
+  --primary-color: #ff6b6b;
+  --secondary-color: #4ecdc4;
+  --session-color: #ff9f43;
+  --break-color: #54a0ff;
+  --dark-color: #2d3436;
+  --light-color: #f8f9fa;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --border-radius: 20px;
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: var(--dark-color);
+}
+
+.pomodoro-container {
+  max-width: 800px;
+  width: 100%;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 30px;
+  animation: slideDown 0.6s ease-out;
+}
+
+.app-header h1 {
+  color: var(--dark-color);
+  font-size: 2.8rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.subtitle {
+  color: #636e72;
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.clock-app {
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+/* Contrôles */
+.controls-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 600px) {
+  .controls-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.control-group {
+  background: #f8f9fa;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  border: 2px solid #e9ecef;
+  transition: var(--transition);
+}
+
+.control-group:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-5px);
+}
+
+#break-label {
+  color: var(--break-color);
+}
+
+#session-label {
+  color: var(--session-color);
+}
+
+.control-label {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.control-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+
+.control-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  background: var(--dark-color);
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover:not(:disabled) {
+  background: var(--primary-color);
+  transform: scale(1.1);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-value {
+  font-size: 3.5rem;
+  font-weight: 700;
+  min-width: 80px;
+  font-family: 'Courier New', monospace;
+}
+
+#break-length {
+  color: var(--break-color);
+}
+
+#session-length {
+  color: var(--session-color);
+}
+
+.control-info {
+  color: #6c757d;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Minuteur */
+.timer-container {
+  text-align: center;
+  background: linear-gradient(135deg, var(--dark-color), #1a1e23);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 30px;
+  color: white;
+  border: 5px solid var(--primary-color);
+  animation: pulseBorder 4s infinite;
+}
+
+@keyframes pulseBorder {
+  0%, 100% { border-color: var(--primary-color); }
+  50% { border-color: var(--secondary-color); }
+}
+
+#timer-label {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+#time-left {
+  font-size: 5rem;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  letter-spacing: 3px;
+}
+
+#time-left.warning {
+  color: #ff7675;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.timer-btn {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.start-stop-btn {
+  background: linear-gradient(135deg, var(--secondary-color), #2ecc71);
+  color: white;
+}
+
+.start-stop-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(78, 205, 196, 0.3);
+}
+
+.reset-btn {
+  background: linear-gradient(135deg, #ff9f43, var(--primary-color));
+  color: white;
+}
+
+.reset-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+}
+
+/* Instructions */
+.instructions {
+  background: #e3f2fd;
+  border-radius: 15px;
+  padding: 25px;
+  border-left: 5px solid var(--secondary-color);
+}
+
+.instructions h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--dark-color);
+  margin-bottom: 15px;
+}
+
+.instructions ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.instructions li {
+  padding: 8px 0;
+  padding-left: 30px;
+  position: relative;
+  color: #2d3436;
+}
+
+.instructions li:before {
+  content: '✓';
+  color: var(--secondary-color);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.app-footer {
+  text-align: center;
+  color: #636e72;
+  padding: 20px;
+  font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .control-value {
+    font-size: 2.5rem;
+  }
+  
+  #time-left {
+    font-size: 3.5rem;
+  }
+  
+  .timer-btn {
+    min-width: 140px;
+    padding: 12px 20px;
+  }
+}
+
+/* Style pour l'état actif */
+.active-session .timer-container {
+  border-color: var(--session-color);
+}
+
+.active-break .timer-container {
+  border-color: var(--break-color);
+}
+
+
+
+
+
+import React, { useState, useEffect, useRef } from 'react';
+import './PomodoroClock.css';
+
+const PomodoroClock = () => {
+  // États pour les longueurs de pause et session
+  const [breakLength, setBreakLength] = useState(5);
+  const [sessionLength, setSessionLength] = useState(25);
+  
+  // États pour le minuteur
+  const [timeLeft, setTimeLeft] = useState(25 * 60); // en secondes
+  const [timerLabel, setTimerLabel] = useState('Session');
+  const [isRunning, setIsRunning] = useState(false);
+  const [isSession, setIsSession] = useState(true);
+  
+  // Références pour l'intervalle et l'audio
+  const timerRef = useRef(null);
+  const audioRef = useRef(null);
+
+  // Formater le temps en mm:ss
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Gestion des longueurs avec limites
+  const handleBreakChange = (increment) => {
+    if (!isRunning) {
+      const newLength = breakLength + increment;
+      if (newLength >= 1 && newLength <= 60) {
+        setBreakLength(newLength);
+        if (!isSession) {
+          setTimeLeft(newLength * 60);
+        }
+      }
+    }
+  };
+
+  const handleSessionChange = (increment) => {
+    if (!isRunning) {
+      const newLength = sessionLength + increment;
+      if (newLength >= 1 && newLength <= 60) {
+        setSessionLength(newLength);
+        if (isSession) {
+          setTimeLeft(newLength * 60);
+        }
+      }
+    }
+  };
+
+  // Démarrer/arrêter le minuteur
+  const toggleTimer = () => {
+    setIsRunning(!isRunning);
+  };
+
+  // Réinitialiser le minuteur
+  const resetTimer = () => {
+    // Arrêter le minuteur
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    
+    // Réinitialiser les états
+    setIsRunning(false);
+    setBreakLength(5);
+    setSessionLength(25);
+    setTimeLeft(25 * 60);
+    setTimerLabel('Session');
+    setIsSession(true);
+    
+    // Arrêter et réinitialiser l'audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  };
+
+  // Gérer le compte à rebours
+  useEffect(() => {
+    if (isRunning) {
+      timerRef.current = setInterval(() => {
+        setTimeLeft(prevTime => {
+          if (prevTime <= 0) {
+            // Temps écoulé, basculer entre session et pause
+            audioRef.current.play();
+            
+            if (isSession) {
+              // Session terminée, commencer la pause
+              setTimerLabel('Break');
+              setIsSession(false);
+              return breakLength * 60;
+            } else {
+              // Pause terminée, commencer la session
+              setTimerLabel('Session');
+              setIsSession(true);
+              return sessionLength * 60;
+            }
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+    } else if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [isRunning, isSession, breakLength, sessionLength]);
+
+  // Mettre à jour le titre de la page avec le temps restant
+  useEffect(() => {
+    document.title = `${formatTime(timeLeft)} - ${timerLabel} | Pomodoro Clock`;
+  }, [timeLeft, timerLabel]);
+
+  return (
+    <div className="pomodoro-container">
+      <header className="app-header">
+        <h1><i className="fas fa-clock"></i> Horloge 25 + 5</h1>
+        <p className="subtitle">Technique Pomodoro pour une productivité optimale</p>
+      </header>
+
+      <main className="clock-app">
+        <div className="controls-container">
+          {/* Contrôles pour la pause */}
+          <div className="control-group">
+            <div id="break-label" className="control-label">
+              <i className="fas fa-coffee"></i> Durée de la pause
+            </div>
+            <div className="control-buttons">
+              <button
+                id="break-decrement"
+                className="control-btn"
+                onClick={() => handleBreakChange(-1)}
+                disabled={isRunning}
+              >
+                <i className="fas fa-arrow-down"></i>
+              </button>
+              <div id="break-length" className="control-value">
+                {breakLength}
+              </div>
+              <button
+                id="break-increment"
+                className="control-btn"
+                onClick={() => handleBreakChange(1)}
+                disabled={isRunning}
+              >
+                <i className="fas fa-arrow-up"></i>
+              </button>
+            </div>
+            <div className="control-info">Minutes</div>
+          </div>
+
+          {/* Contrôles pour la session */}
+          <div className="control-group">
+            <div id="session-label" className="control-label">
+              <i className="fas fa-briefcase"></i> Durée de la session
+            </div>
+            <div className="control-buttons">
+              <button
+                id="session-decrement"
+                className="control-btn"
+                onClick={() => handleSessionChange(-1)}
+                disabled={isRunning}
+              >
+                <i className="fas fa-arrow-down"></i>
+              </button>
+              <div id="session-length" className="control-value">
+                {sessionLength}
+              </div>
+              <button
+                id="session-increment"
+                className="control-btn"
+                onClick={() => handleSessionChange(1)}
+                disabled={isRunning}
+              >
+                <i className="fas fa-arrow-up"></i>
+              </button>
+            </div>
+            <div className="control-info">Minutes</div>
+          </div>
+        </div>
+
+        {/* Affichage du minuteur */}
+        <div className="timer-container">
+          <div id="timer-label" className="timer-label">
+            {timerLabel}
+          </div>
+          <div id="time-left" className={`time-display ${timeLeft < 60 ? 'warning' : ''}`}>
+            {formatTime(timeLeft)}
+          </div>
+          
+          {/* Contrôles du minuteur */}
+          <div className="timer-controls">
+            <button
+              id="start_stop"
+              className="timer-btn start-stop-btn"
+              onClick={toggleTimer}
+            >
+              <i className={`fas fa-${isRunning ? 'pause' : 'play'}`}></i>
+              {isRunning ? 'Pause' : 'Démarrer'}
+            </button>
+            <button
+              id="reset"
+              className="timer-btn reset-btn"
+              onClick={resetTimer}
+            >
+              <i className="fas fa-redo"></i> Réinitialiser
+            </button>
+          </div>
+        </div>
+
+        {/* Indications */}
+        <div className="instructions">
+          <h3><i className="fas fa-lightbulb"></i> Comment utiliser :</h3>
+          <ul>
+            <li>Configurez la durée de session (travail) et de pause</li>
+            <li>Cliquez sur Démarrer pour lancer le minuteur</li>
+            <li>Travaillez pendant la session, reposez-vous pendant la pause</li>
+            <li>Le minuteur alterne automatiquement entre session et pause</li>
+          </ul>
+        </div>
+      </main>
+
+      {/* Élément audio pour la sonnerie */}
+      <audio
+        id="beep"
+        ref={audioRef}
+        src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3"
+        preload="auto"
+      />
+
+      <footer className="app-footer">
+        <p>Projet freeCodeCamp - Horloge 25 + 5</p>
+      </footer>
+    </div>
+  );
+};
+
+export default PomodoroClock;
