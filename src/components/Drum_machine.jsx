@@ -95,9 +95,9 @@ const Drum_machine = () => {
   }, [handlekeyPress]);
 
   return (
-    <div id='drum-machine' className='py-10 m-auto border items-center justify-center w-300 rounded-xl mt-4 bg-gray-600'>
-      <h2 className='text-white font-medium text-3xl text-center items-center'> FCC Drum machine</h2>
-      <p className='text-center font-semibold'>Cliquez sue les pads ou utilisez votre clavier</p>
+    <div id='drum-machine' className='py-10 m-auto border items-center justify-center mb-5 w-300 rounded-xl bg-gray-600'>
+      <h2 className='text-white font-medium text-3xl text-center items-center mt-5'> FCC Drum machine</h2>
+      <p className='text-center font-semibold mb-5 text-white'>Cliquez sur les pads ou utilisez votre clavier</p>
 
       <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mt-5'>
         <div className='ml-2'>

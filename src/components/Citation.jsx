@@ -15,7 +15,12 @@ const Citation = () => {
     { text: "Patience, persévérance et transpiration forment une combinaison imbattable pour le succès. ", author: "Napoleon Hill"},
     { text: "Le succès n'est pas la clé du bonheur. Le bonheur est la clé du succès. Si vous aimez ce que vous faites, vous réussirez.", author: "Albert Schweitzer"},
     { text: "Faites ce que vous pouvez, avec ce que vous avez, là où vous êtes.", author: "Theodore Roosevelt"},
-    { text: "Il y a une raison pour laquelle on a des rêves. C'est pour les réaliser.", author: "Christopher Gardner"}
+    { text: "Le monde a besoin de rêveurs et de gens qui agissent. Mais il a surtout besoin de rêveurs qui passent à l'action.", author: "Sarah Ban Breathmach"},
+    { text: "La vie, c'est comme bicyclette, il faut avancer pour ne pas perdre l'équilibre.", author: "Albert Eistein"},
+    { text: "La vie est un rêve, c'est le reveil qui nous tue.", author: "Virginia Woolf"},
+    { text: "La meilleure façon de prédire l'avenir est de l'inventer.", author: "Alan Kay"},
+    { text: "Tout le monde savait que c'était impossible. Puis un jour, quelqu'un qui ne le savait pas est arrivé et l'a fait.", author: "Winston Churchill"},
+    { text: "Ce qu'en affrontant nos peur que nous découvrons qui nous sommes vraiment.", author: "Albus Dumbledore"}
   ];
 
   const fetchRandomQuotes = async () => {
@@ -50,7 +55,7 @@ const Citation = () => {
 
 
   return (
-    <div id='quote-box' className="items-center w-120 py-10 m-auto p-6 bg-gray-200 border border-gray-700 mt-4 rounded-2xl gap-5">
+    <div id='quote-box' className="items-center w-120 py-10 m-auto p-6 bg-gray-200 mb-6 border border-gray-700 rounded-2xl gap-8">
       
       <div id='text' className='text-center'>
         <p className="font-medium text-2xl text-[#667eea]">{quote.text}</p>
@@ -59,11 +64,11 @@ const Citation = () => {
         <h4 className='text-black text-right'> - {quote.author}</h4>
       </div>
 
-      <div id='flex flex-wrap mt-3 items-center justify-center gap-6'>
+      <div id='flex flex-wrap mt-3 '>
         <a href={tweetUrl} id='tweet-quote' target='_blank' className='text-white py-3 px-5 bg-gray-500 cursor-pointer rounded-full'>Partager sur X</a> 
-        <button id='new-quote' onClick={handleButton} className='text-white bg-[#1DA1F2] py-3 px-5 hover:bg-[#0d8bd9] cursor-pointer rounded-full transition-all mr-0'>Nouvelle Citation</button>
+        <button id='new-quote' onClick={handleButton} className='text-white bg-[#1DA1F2] py-3 px-5 hover:bg-[#0d8bd9] cursor-pointer rounded-full transition-all'>Nouvelle Citation</button>
       </div>
-
+    
     </div>
   )
 }

@@ -114,11 +114,11 @@ const Markdown = () => {
   };
 
   return (
-    <div id='markdown' className='justify-center items-center m-auto w-300 mt-4 text-white border rounded-xl bg-gray-400 gap-5'>
+    <div id='markdown' className='justify-center items-center m-auto w-300 mb-6 text-white border rounded-xl bg-gray-800 gap-5'>
       
-      <header className='mb-5 text-center p-3'>
+      <header className='mb-6 text-center p-3 mt-5'>
         <h1 className='text-[#6c63ff] flex items-center justify-center gap-5 font-medium text-3xl'>Prévisualisation Markdown </h1>
-        <p className='text-[#666] font-semibold'>Editez le Markdown à gauche et voyez le résultat en temps réel à droite </p>
+        <p className='text-white font-semibold'>Editez le Markdown à gauche et voyez le résultat en temps réel à droite </p>
       </header>
 
       <main className='grid grid-cols-2 gap-6'>
@@ -175,7 +175,7 @@ const Markdown = () => {
       <footer className=''>
         <div className="m-auto justify-center mt-2 items-center gap-6">
           <div className="pl-2 pr-2 pb-2">
-            <h4 className='text-[#4a44c6] text-center text-2xl font-medium'>Guide rapide Markdown</h4>
+            <h4 className='text-[#4a44c6] text-center text-2xl font-medium mb-5'>Guide rapide Markdown</h4>
             <div className="grid grid-cols-3">
               <div className='bg-[#f8f9fa] p-5 border rounded-xl  transition-all'>
                 <code className='block bg-white text-[#d63384]'># Titre H1</code>

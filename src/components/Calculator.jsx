@@ -162,7 +162,7 @@ const Calculator = () => {
 
 
   return (
-    <div id='calculator' className="flex flex-col items-center m-auto border gap-5 top-5 mt-4 w-300 bg-gray-100 rounded-xl py-10">
+    <div id='calculator' className="flex flex-col items-center m-auto mb-6 border gap-5 w-300 bg-gray-100 rounded-xl py-10">
  
       <h1 className='text-[#3498db] font-medium text-center items-center text-3xl'>Calculator</h1>
 

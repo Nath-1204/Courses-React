@@ -118,7 +118,7 @@ const Horloge = () => {
 
 
   return (
-    <div id='clock' className="items-center justify-center bg-[#c3cfe2] py-10 w-300 m-auto mt-4 mb-3 gap-4 rounded-2xl">
+    <div id='clock' className="items-center justify-center bg-[#c3cfe2] py-10 w-300 m-auto mt-5 gap-5 rounded-2xl">
       
       <header className="items-center justify-cente text-center">
         <h1 className='text-[#54a0ff] text-3xl font-medium'>Horloge </h1>
@@ -126,7 +126,7 @@ const Horloge = () => {
       </header>
 
       <main className='ml-2 mr-2 mt-5'>
-        <div className='grid grid-cols-1 sm:grid-cols-2 mt-5 gap-5'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 top-5 gap-5'>
           {/** Contrôles pour la pause */}
           <div className="items-center border border-[#e9ecef] bg-[#f8f9fa] rounded-2xl hover:border-[#ff6b6b] transition-all gap-5">
             <div id='break-label' className='items-center text-[#4ecdc4] font-medium'>
